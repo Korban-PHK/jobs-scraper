@@ -1,52 +1,60 @@
 import puppeteer from "puppeteer";
 
-const browser = await puppeteer.launch();
+const browser = await puppeteer.launch({
+  args: ["--no-sandbox"],
+});
 const page = await browser.newPage();
 
 await page.goto("https://id.jobstreet.com/id/PHP-Developer-jobs");
-
 await page.setViewport({ width: 1080, height: 1024 });
 
-// await page.waitForSelector('article');
-// const jobId = await articleSelector?.evaluate((el) =>
-//   el.getAttribute("data-job-id")
-// );
-// const jobs = await articlesSelector?.evaluate((el) => el.classList);
-// const articles = await articlesSelector?.$$eval();
-// const jobCards = await page.$
+const jobs = [];
 
 const articles = await page.$$("article");
-for (const article of articles) {
-  const jobTitle = await article.$eval('a[data-automation="jobTitle"]', (el) =>
-    el.textContent.trim()
-  );
-  const jobCompany = await article.$eval(
-    'a[data-automation="jobCompany"]',
-    (el) => el.textContent.trim()
-  );
-  const jobLocation = await article.$eval(
-    'a[data-automation="jobLocation"]',
-    (el) => el.textContent.trim()
-  );
-  const jobShortDescription = await article.$eval(
-    'span[data-automation="jobShortDescription"]',
-    (el) => el.textContent.trim()
-  );
-  const jobListingDate = await article.$eval(
-    'span[data-automation="jobListingDate"]',
-    (el) => el.textContent.trim()
-  );
-  const jobClassification = await article.$eval(
-    'span[data-automation="jobClassification"]',
-    (el) => el.textContent.trim()
-  );
-  const jobSubClassification = await article.$eval(
-    'span[data-automation="jobSubClassification"]',
-    (el) => el.textContent.trim()
-  );
-  console.log(title);
-}
+const jobUrl = await articles[0].$eval('a[data-automation="jobTitle"]', (el) =>
+  el.getAttribute("href")
+);
+console.log(jobUrl);
+// const jobId = await articles[0].evaluate((el) =>
+//   el.getAttribute("data-job-id")
+// );
+// console.log("jobId: ", jobId);
+// const jobPage = await browser.newPage();
+// const jobLink = `https://id.jobstreet.com/job/${jobId}`;
+// await jobPage.goto(jobLink);
+// await jobPage.setViewport({ width: 1080, height: 1024 });
+// await jobPage.waitForSelector('div[data-automation="jobDetailsPage"]', {
+//   timeout: 5_000,
+// });
+// console.log(await jobPage.title());
+// await jobPage.close();
 
-console.log("Found: ", articles.length);
+// for (const article of articles) {
+//   const jobId = await article.evaluate((el) => el.getAttribute("data-job-id"));
+//   const jobPage = await browser.newPage();
+//   const jobLink = `https://id.jobstreet.com/job/${jobId}`;
+//   await jobPage.goto(jobLink);
+//   await jobPage.setViewport({ width: 1080, height: 1024 });
+//   await jobPage.waitForSelector('div[job-automation="jobDetailsPage"]');
+//   console.log(await jobPage.title());
+//   // try {
+//   //   const jobTitle = await jobPage.$eval(
+//   //     '[data-automation="job-detail-title"]',
+//   //     (el) => el.textContent.trim()
+//   //   );
+
+//   //   jobs.push({
+//   //     id: jobId,
+//   //     title: jobTitle,
+//   //   });
+//   // } catch (err) {
+//   //   console.log("Error scraping: ", jobLink, err);
+//   // } finally {
+//   await jobPage.close();
+//   // }
+// }
+
+console.log("Found: ", jobs.length);
+console.log("Jobs: ", jobs);
 
 await browser.close();

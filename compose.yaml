@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql:lts
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - jobs-scraper-data:/var/lib/mysql
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+
+volumes:
+  jobs-scraper-data:
