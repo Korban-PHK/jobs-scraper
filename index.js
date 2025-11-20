@@ -14,10 +14,35 @@ await page.setViewport({ width: 1080, height: 1024 });
 // const jobs = await articlesSelector?.evaluate((el) => el.classList);
 // const articles = await articlesSelector?.$$eval();
 // const jobCards = await page.$
+
 const articles = await page.$$("article");
 for (const article of articles) {
-  const title = await article.$eval('a[data-automation="jobTitle"]', (el) =>
+  const jobTitle = await article.$eval('a[data-automation="jobTitle"]', (el) =>
     el.textContent.trim()
+  );
+  const jobCompany = await article.$eval(
+    'a[data-automation="jobCompany"]',
+    (el) => el.textContent.trim()
+  );
+  const jobLocation = await article.$eval(
+    'a[data-automation="jobLocation"]',
+    (el) => el.textContent.trim()
+  );
+  const jobShortDescription = await article.$eval(
+    'span[data-automation="jobShortDescription"]',
+    (el) => el.textContent.trim()
+  );
+  const jobListingDate = await article.$eval(
+    'span[data-automation="jobListingDate"]',
+    (el) => el.textContent.trim()
+  );
+  const jobClassification = await article.$eval(
+    'span[data-automation="jobClassification"]',
+    (el) => el.textContent.trim()
+  );
+  const jobSubClassification = await article.$eval(
+    'span[data-automation="jobSubClassification"]',
+    (el) => el.textContent.trim()
   );
   console.log(title);
 }
