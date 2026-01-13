@@ -5,6 +5,11 @@ const browser = await puppeteer.launch({
 });
 const page = await browser.newPage();
 
+const keywords = [
+  'PHP Developer',
+  'Golang'
+];
+
 await page.goto("https://id.jobstreet.com/id/PHP-Developer-jobs");
 await page.setViewport({ width: 1080, height: 1024 });
 
@@ -29,30 +34,30 @@ console.log(jobUrl);
 // console.log(await jobPage.title());
 // await jobPage.close();
 
-// for (const article of articles) {
-//   const jobId = await article.evaluate((el) => el.getAttribute("data-job-id"));
-//   const jobPage = await browser.newPage();
-//   const jobLink = `https://id.jobstreet.com/job/${jobId}`;
-//   await jobPage.goto(jobLink);
-//   await jobPage.setViewport({ width: 1080, height: 1024 });
-//   await jobPage.waitForSelector('div[job-automation="jobDetailsPage"]');
-//   console.log(await jobPage.title());
-//   // try {
-//   //   const jobTitle = await jobPage.$eval(
-//   //     '[data-automation="job-detail-title"]',
-//   //     (el) => el.textContent.trim()
-//   //   );
+for (const article of articles) {
+  const jobId = await article.evaluate((el) => el.getAttribute("data-job-id"));
+  const jobPage = await browser.newPage();
+  const jobLink = `https://id.jobstreet.com/job/${jobId}`;
+  await jobPage.goto(jobLink);
+  await jobPage.setViewport({ width: 1080, height: 1024 });
+  await jobPage.waitForSelector('div[job-automation="jobDetailsPage"]');
+  console.log(await jobPage.title());
+  // try {
+  //   const jobTitle = await jobPage.$eval(
+  //     '[data-automation="job-detail-title"]',
+  //     (el) => el.textContent.trim()
+  //   );
 
-//   //   jobs.push({
-//   //     id: jobId,
-//   //     title: jobTitle,
-//   //   });
-//   // } catch (err) {
-//   //   console.log("Error scraping: ", jobLink, err);
-//   // } finally {
-//   await jobPage.close();
-//   // }
-// }
+  //   jobs.push({
+  //     id: jobId,
+  //     title: jobTitle,
+  //   });
+  // } catch (err) {
+  //   console.log("Error scraping: ", jobLink, err);
+  // } finally {
+  await jobPage.close();
+  // }
+}
 
 console.log("Found: ", jobs.length);
 console.log("Jobs: ", jobs);
